@@ -102,6 +102,7 @@
 
   if (cap_values [index] > tap_on)
    cap_flags [index] = true;
+  
   if (cap_values [index] < tap_off)
    cap_flags [index] = false;
  }
@@ -181,6 +182,7 @@
  ext._deviceRemoved = _deviceRemoved;
 
  ext.tile_pressure = tile_pressure;
+ ext.tile_flag = tile_flag;
  ext.speak =  speak;
 
  
