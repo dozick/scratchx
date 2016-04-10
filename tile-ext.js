@@ -14,8 +14,15 @@
  var n_caps = 4;
  var cap_baselines = new Array (n_caps);
  var cap_values = new Array (n_caps);
+ var cap_flags = new Array (n_caps);
  
 
+ // thresholds
+ var tap_on = 100;
+ var tap_off = 80;
+ var tap_max = 200;
+
+ 
 
  // Functions
  
@@ -92,6 +99,11 @@
    cap_baselines [index] = ((1 / tc) * value) + (((tc - 1) / tc) * cap_baselines [index]);
 
   cap_values [index] = Math.round (value - cap_baselines [index]);
+
+  if (cap_values [index] > tap_on)
+   cap_flags [index] = true;
+  if (cap_values [index] < tap_off)
+   cap_flags [index] = false;
  }
 
 
@@ -129,6 +141,13 @@
   
 
 
+ function tile_flag (segment)
+ {
+  return (cap_flags [Number (segment)]);
+ }
+  
+
+
  function speak (string)
  {
   var utterance = new SpeechSynthesisUtterance (string);
@@ -143,6 +162,7 @@
   blocks:
   [
    ["r", "tile %m.segment pressure", "tile_pressure", 0],
+   ["r", "tile %m.segment flag", "tile_flag", 0],
    [" ", "speak %s", "speak", ""]
    ],
 
