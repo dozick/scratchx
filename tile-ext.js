@@ -129,12 +129,21 @@
   
 
 
+ function speak (string)
+ {
+  var utterance = new SpeechSynthesisUtterance (string);
+  speechSynthesis.speak (utterance);
+ }
+  
+
+
  // Block and block menu descriptions
  var descriptor =
  {
   blocks:
   [
-   ["r", "tile %m.segment pressure", "tile_pressure", 0]
+   ["r", "tile %m.segment pressure", "tile_pressure", 0],
+   [" ", "speak %s", "speak", ""]
    ],
 
   menus:
@@ -152,7 +161,7 @@
  ext._deviceRemoved = _deviceRemoved;
 
  ext.tile_pressure = tile_pressure;
-
+ ext.speak =  speak;
 
  
  // register the extension
