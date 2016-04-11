@@ -146,7 +146,33 @@
  {
   return (cap_flags [Number (segment)]);
  }
-  
+
+
+
+ function set_led (color, value)
+ {
+  var led = 0;
+  switch (color)
+   {
+   case "red":
+    led = 0;
+    break;
+
+   case "green":
+    led = 1;
+    break;
+
+   case "blue":
+    led = 2;
+    break;
+   }
+
+  if (value == "on")
+   serial_device.send (to_buffer ("set_led " + led + " 1 \n"));
+  else
+   serial_device.send (to_buffer ("set_led " + led + " 0 \n"));
+ }
+ 
 
 
  function speak (string)
@@ -164,12 +190,15 @@
   [
    ["r", "tile %m.segment pressure", "tile_pressure", 0],
    ["r", "tile %m.segment flag", "tile_flag", 0],
-   [" ", "speak %s", "speak", ""]
+   [" ", "speak %s", "speak", ""],
+   [" ", "set %m.color LED to %m.color_value", "set_led", "red", "off"] 
    ],
 
   menus:
   {
-   segment: [0, 1, 2, 3]
+   segment: [0, 1, 2, 3],
+   color: ["red", "green", "blue"],
+   color_value: ["off", "on"]
   }
  };
 
