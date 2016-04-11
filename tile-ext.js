@@ -213,7 +213,9 @@
  ext.tile_pressure = tile_pressure;
  ext.tile_flag = tile_flag;
  ext.speak =  speak;
+ ext.set_led = set_led;
 
+ 
  
  // register the extension
  ScratchExtensions.register ("JumpSmart", descriptor, ext, { type: "serial" });
