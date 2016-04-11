@@ -149,6 +149,19 @@
 
 
 
+ function tile_pressed ()
+ {
+  for (var i = 0; i < n_caps; i++)
+   {
+    if (cap_flags [i])
+     return (true);
+   }
+  
+  return (false);
+ }
+
+
+
  function set_led (color, value)
  {
   var led = 0;
@@ -190,6 +203,7 @@
   [
    ["r", "tile %m.segment pressure", "tile_pressure", 0],
    ["r", "tile %m.segment flag", "tile_flag", 0],
+   ["r", "tile is pressed", "tile_pressed", 0],
    [" ", "speak %s", "speak", ""],
    [" ", "set %m.color LED to %m.color_value", "set_led", "red", "off"] 
    ],
@@ -212,6 +226,7 @@
 
  ext.tile_pressure = tile_pressure;
  ext.tile_flag = tile_flag;
+ ext.tile_pressed = tile_pressed;
  ext.speak =  speak;
  ext.set_led = set_led;
 
