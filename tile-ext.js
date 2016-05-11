@@ -83,7 +83,7 @@
  
  function cap_count (index, value)
  {
-  if (! cap_baselines [index])
+  if (cap_baselines [index] === undefined)
    cap_baselines [index] = value;
  
   // fast adjust downwards
@@ -187,7 +187,9 @@
  }
  
 
-
+ 
+ // ?? consider using utterance.onend to add "speak until done"
+ 
  function speak (string)
  {
   var utterance = new SpeechSynthesisUtterance (string);
