@@ -122,11 +122,14 @@
   
   var atoms = text.split (" ");
 
-  /* if ((atoms [1] % 5) == 0) */
-  /*  console.log ("on_data", atoms [1]); */
+  if (atoms [0] = "smm")
+   {
+    if ((atoms [1] % 5) == 0)
+     console.log ("on_data", atoms [1]);
 
-  for (var i = 0; i < n_caps; i++)
-   cap_count (i, Number (atoms [i + 2]));
+    for (var i = 0; i < n_caps; i++)
+     cap_count (i, Number (atoms [i + 2]));
+   }
  }
 
  
