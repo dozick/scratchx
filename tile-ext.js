@@ -151,7 +151,7 @@
 
  function tile_pressed ()
  {
-  for (var i = 1; i < n_caps; i++)
+  for (var i = 0; i < n_caps; i++)
    {
     if (cap_flags [i])
      return (true);
