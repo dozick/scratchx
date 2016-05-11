@@ -12,6 +12,7 @@
  var out_buffer = new DataView (new ArrayBuffer (n_bytes_buffer));
 
  var n_caps = 4;
+ var cap_raw_values = new Array (n_caps);
  var cap_baselines = new Array (n_caps);
  var cap_values = new Array (n_caps);
  var cap_flags = new Array (n_caps);
@@ -83,6 +84,8 @@
  
  function cap_count (index, value)
  {
+  cap_raw_values [index] = value;
+  
   if (cap_baselines [index] === undefined)
    cap_baselines [index] = value;
  
@@ -134,6 +137,13 @@
  }
 
  
+
+ function tile_raw (segment)
+ {
+  return (cap_raw_values [Number (segment)]);
+ }
+  
+
 
  function tile_pressure (segment)
  {
@@ -203,6 +213,7 @@
  {
   blocks:
   [
+   ["r", "tile %m.segment raw", "tile_raw", 0],
    ["r", "tile %m.segment pressure", "tile_pressure", 0],
    ["r", "tile %m.segment flag", "tile_flag", 0],
    ["r", "tile is pressed", "tile_pressed", 0],
