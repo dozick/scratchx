@@ -237,6 +237,7 @@
  ext._deviceConnected = _deviceConnected;
  ext._deviceRemoved = _deviceRemoved;
 
+ ext.tile_raw = tile_raw;
  ext.tile_pressure = tile_pressure;
  ext.tile_flag = tile_flag;
  ext.tile_pressed = tile_pressed;
