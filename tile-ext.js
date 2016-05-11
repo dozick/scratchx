@@ -84,7 +84,8 @@
  
  function cap_count (index, value)
  {
-  console.log ("cc", index, value);
+  if (! isFinite (value))
+   return;
   
   cap_raw_values [index] = value;
   
