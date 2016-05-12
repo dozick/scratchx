@@ -122,7 +122,7 @@
  function on_data (data)
  {
   var text = to_string (data);
-  console.log (text);
+  // console.log (text);
   
   var atoms = text.split (" ");
 
