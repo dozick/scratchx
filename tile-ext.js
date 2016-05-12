@@ -126,7 +126,7 @@
   
   var atoms = text.split (" ");
 
-  if (atoms [0] = "smm")
+  if (atoms [0] == "smm")
    {
     if ((atoms [1] % 5) == 0)
      console.log ("on_data", atoms [1]);
