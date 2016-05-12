@@ -90,7 +90,11 @@
   cap_raw_values [index] = value;
   
   if (cap_baselines [index] === undefined)
-   cap_baselines [index] = value;
+   {
+    console.log ("cap_count: baseline", index, value);
+    cap_baselines [index] = value;
+   }
+    
  
   // fast adjust downwards
   var tc = 5;
@@ -118,7 +122,7 @@
  function on_data (data)
  {
   var text = to_string (data);
-  // console.log (text);
+  console.log (text);
   
   var atoms = text.split (" ");
 
