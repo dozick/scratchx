@@ -52,7 +52,7 @@
  {
   console.log ("_deviceConnected", dev);
 
-  if (dev.id == "/dev/tty.usbmodem1459031")
+  if (dev.id == "/dev/tty.usbmodem1816151")
    {
     serial_device = dev;
     dev.open ({ bitRate: 115200, stopBits: 0 }, on_open);
@@ -128,7 +128,7 @@
 
   if (atoms [0] == "smm")
    {
-    if ((atoms [1] % 5) == 0)
+    if (atoms [1] == 0)
      console.log ("on_data", atoms [1]);
 
     for (var i = 0; i < n_caps; i++)
@@ -182,28 +182,15 @@
 
 
 
- function set_led (color, value)
+ function set_color (red, green, blue)
  {
-  var led = 0;
-  switch (color)
-   {
-   case "red":
-    led = 0;
-    break;
-
-   case "green":
-    led = 1;
-    break;
-
-   case "blue":
-    led = 2;
-    break;
-   }
-
-  if (value == "on")
-   serial_device.send (to_buffer ("set_led " + led + " 1 \n"));
-  else
-   serial_device.send (to_buffer ("set_led " + led + " 0 \n"));
+  var red = 255 * red / 100;
+  var green = 255 * green / 100;
+  var blue = 255 * blue / 100;
+  
+  var command = (["set_leds", red, green, blue, 255, 255, "\n"] . join (" "));
+  console.log (command);
+  serial_device.send (to_buffer (command));
  }
  
 
@@ -228,7 +215,7 @@
    ["r", "tile %m.segment flag", "tile_flag", 0],
    ["r", "tile is pressed", "tile_pressed", 0],
    [" ", "speak %s", "speak", ""],
-   [" ", "set %m.color LED to %m.color_value", "set_led", "red", "off"] 
+   [" ", "set tile color to red %n green %n blue %n", "set_color", 0, 0, 0]
    ],
 
   menus:
@@ -252,7 +239,7 @@
  ext.tile_flag = tile_flag;
  ext.tile_pressed = tile_pressed;
  ext.speak =  speak;
- ext.set_led = set_led;
+ ext.set_color = set_color;
 
  
  
