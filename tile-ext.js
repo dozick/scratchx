@@ -215,7 +215,7 @@
    ["r", "tile %m.segment flag", "tile_flag", 0],
    ["r", "tile is pressed", "tile_pressed", 0],
    [" ", "speak %s", "speak", ""],
-   [" ", "set tile color to red %n green %n blue %n", "set_color", 0, 0, 0]
+   [" ", "set tile to red %n green %n blue %n", "set_color", 0, 0, 0]
    ],
 
   menus:
