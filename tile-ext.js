@@ -43,9 +43,9 @@
  function _getStatus ()
  {
   if (! serial_device)
-   return {status: 1, msg: "Not Connected" };
+   return { status: 1, msg: "Not Connected" };
   else
-   return {status: 2, msg: "Connected" };  
+   return { status: 2, msg: "Connected" };  
  }
 
 
