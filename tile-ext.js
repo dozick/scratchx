@@ -98,15 +98,14 @@
     console.log ("cap_count: baseline", index, value);
     cap_baselines [index] = value;
    }
-    
  
-  // fast adjust downwards
-  var tc = 5;
+  // adjust downwards (originally faster tc)
+  var tc = 500;
 
   if (value < cap_baselines [index])
    cap_baselines [index] = ((1 / tc) * value) + (((tc - 1) / tc) * cap_baselines [index]);
 
-  // slow adjust upwards
+  // adjust upwards (originally slower tc)
   var tc = 500;
 
   if (value > cap_baselines [index])
