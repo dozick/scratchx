@@ -42,7 +42,10 @@
  // _getStatus - report missing hardware, plugin, or unsupported browser
  function _getStatus ()
  {
-  return {status: 1, msg: "Not Ready" };
+  if (! serial_device)
+   return {status: 1, msg: "Not Connected" };
+  else
+   return {status: 2, msg: "Connected" };  
  }
 
 
@@ -63,6 +66,7 @@
 
  function _deviceRemoved (dev)
  {
+  serial_device = null;
   return;
  }
 
