@@ -23,8 +23,8 @@
 var cap_peak_init = 500;
 var cap_peak_min = 250;
 var cap_peak_max = 1000;
-var cap_on_frac = 0.5;
-var cap_off_frac = 0.4;
+var cap_on_frac = 0.70;
+var cap_off_frac = 0.65;
 
  
 
@@ -145,10 +145,9 @@ var cap_off_frac = 0.4;
    {
     cap_flags [index] = true;
 
-    // fast adjust (up or down)
-    var tc = 10;
-    cap_peaks [index] = Math.round (((1 / tc) * cap_values [index]) +
-                                   (((tc - 1) / tc) * cap_peaks [index]) );
+    // peak detect
+    if (cap_values [index] > cap_peaks [index])
+     cap_peaks [index] = cap_values [index];
    }
    
   if (cap_values [index] < cap_off)
