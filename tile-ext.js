@@ -198,6 +198,14 @@
  
 
  
+ function reset_baselines ()
+ {
+  for (var i = 0; i < n_caps; i++)
+   cap_baselines [i] = cap_raw_values [i];
+ }
+
+
+
  // ?? consider using utterance.onend to add "speak until done"
  
  function speak (string)
@@ -218,7 +226,8 @@
    ["r", "tile %m.segment flag", "tile_flag", 0],
    ["r", "tile is pressed", "tile_pressed", 0],
    [" ", "speak %s", "speak", ""],
-   [" ", "set tile to red %n green %n blue %n", "set_color", 0, 0, 0]
+   [" ", "set tile to red %n green %n blue %n", "set_color", 0, 0, 0],
+   [" ", "reset tile sensor", "reset_baselines"]
    ],
 
   menus:
@@ -243,7 +252,8 @@
  ext.tile_pressed = tile_pressed;
  ext.speak =  speak;
  ext.set_color = set_color;
-
+ ext.reset_baselines = reset_baselines;
+ 
  
  
  // register the extension
