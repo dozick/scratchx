@@ -220,11 +220,11 @@ var cap_off_frac = 0.4;
  {
   for (var i = 0; i < n_caps; i++)
    {
-    if (cap_flags [i])
-     return (true);
+    if (! cap_flags [i])
+     return (false);
    }
   
-  return (false);
+  return (true);
  }
 
 
