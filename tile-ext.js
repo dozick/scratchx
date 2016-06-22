@@ -19,9 +19,9 @@
  
 
  // thresholds
- var tap_on = 100;
- var tap_off = 80;
- var tap_max = 200;
+ var tap_on = 150;
+ var tap_off = 120;
+ var tap_max = 500;
 
  
 
@@ -98,19 +98,22 @@
     console.log ("cap_count: baseline", index, value);
     cap_baselines [index] = value;
    }
- 
-  // adjust downwards (originally faster tc)
-  var tc = 500;
 
-  if (value < cap_baselines [index])
-   cap_baselines [index] = ((1 / tc) * value) + (((tc - 1) / tc) * cap_baselines [index]);
+  if (0)
+   {
+    // adjust downwards (originally faster tc)
+    var tc = 500;
 
-  // adjust upwards (originally slower tc)
-  var tc = 500;
+    if (value < cap_baselines [index])
+     cap_baselines [index] = ((1 / tc) * value) + (((tc - 1) / tc) * cap_baselines [index]);
 
-  if (value > cap_baselines [index])
-   cap_baselines [index] = ((1 / tc) * value) + (((tc - 1) / tc) * cap_baselines [index]);
+    // adjust upwards (originally slower tc)
+    var tc = 500;
 
+    if (value > cap_baselines [index])
+     cap_baselines [index] = ((1 / tc) * value) + (((tc - 1) / tc) * cap_baselines [index]);
+   }
+  
   cap_values [index] = Math.round (value - cap_baselines [index]);
 
   if (cap_values [index] > tap_on)
