@@ -16,12 +16,15 @@
  var cap_baselines = new Array (n_caps);
  var cap_values = new Array (n_caps);
  var cap_flags = new Array (n_caps);
+ var cap_peaks = new Array (n_caps);
  
 
- // thresholds
- var tap_on = 150;
- var tap_off = 120;
- var tap_max = 500;
+ // tuning values
+var cap_peak_init = 500;
+var cap_peak_min = 250;
+var cap_peak_max = 1000;
+var cap_on_frac = 0.5;
+var cap_off_frac = 0.4;
 
  
 
@@ -86,6 +89,18 @@
 
 
  
+ function limit (value, min, max)
+ {
+  if (value < min)
+   return (min);
+  else if (value > max)
+   return (max);
+  else
+   return (value);
+ }
+
+ 
+
  function cap_count (index, value)
  {
   if (! isFinite (value))
@@ -97,6 +112,12 @@
    {
     console.log ("cap_count: baseline", index, value);
     cap_baselines [index] = value;
+   }
+
+  if (cap_peaks [index] === undefined)
+   {
+    console.log ("cap_count: peak", index, cap_peak_init);
+    cap_peaks [index] = cap_peak_init;
    }
 
   if (0)
@@ -116,11 +137,31 @@
   
   cap_values [index] = Math.round (value - cap_baselines [index]);
 
-  if (cap_values [index] > tap_on)
-   cap_flags [index] = true;
-  
-  if (cap_values [index] < tap_off)
-   cap_flags [index] = false;
+  // ?? functions
+  var cap_on = cap_peaks [index] * cap_on_frac;
+  var cap_off = cap_peaks [index] * cap_off_frac;
+
+  if (cap_values [index] > cap_on)
+   {
+    cap_flags [index] = true;
+
+    // fast adjust (up or down)
+    var tc = 10;
+    cap_peaks [index] = Math.round (((1 / tc) * cap_values [index]) +
+                                   (((tc - 1) / tc) * cap_peaks [index]) );
+   }
+   
+  if (cap_values [index] < cap_off)
+   {
+    cap_flags [index] = false;
+
+    // slow adjust down
+    var tc = 500;
+    cap_peaks [index] = Math.round (((1 / tc) * cap_values [index]) +
+                                   (((tc - 1) / tc) * cap_peaks [index]) );
+   }
+
+  cap_peaks [index] = limit (cap_peaks [index], cap_peak_min, cap_peak_max);
  }
 
 
