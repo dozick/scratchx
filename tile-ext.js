@@ -23,8 +23,8 @@
 var cap_peak_init = 500;
 var cap_peak_min = 250;
 var cap_peak_max = 1000;
-var cap_on_frac = 0.50;
-var cap_off_frac = 0.45;
+var cap_on_frac = 0.25;
+var cap_off_frac = 0.20;
 
  
 
