@@ -58,7 +58,8 @@ var cap_off_frac = 0.20;
  {
   console.log ("_deviceConnected", dev);
 
-  if (dev.id == "/dev/tty.usbmodem1816151")
+  if ((dev.id == "/dev/tty.usbmodem1816151") ||
+      (dev.id == "/dev/tty.usbmodem1864781") )
    {
     serial_device = dev;
     dev.open ({ bitRate: 115200, stopBits: 0 }, on_open);
@@ -241,6 +242,19 @@ var cap_off_frac = 0.20;
  
 
  
+ function set_chaser (red, green, blue, n_reps)
+ {
+  var red = 255 * red / 100;
+  var green = 255 * green / 100;
+  var blue = 255 * blue / 100;
+  
+  var command = (["set_led_chaser", red, green, blue, n_reps, "\n"] . join (" "));
+  console.log (command);
+  serial_device.send (to_buffer (command));
+ }
+ 
+
+ 
  function reset_baselines ()
  {
   for (var i = 0; i < n_caps; i++)
@@ -270,6 +284,7 @@ var cap_off_frac = 0.20;
    ["r", "tile is pressed", "tile_pressed", 0],
    [" ", "speak %s", "speak", ""],
    [" ", "set tile to red %n green %n blue %n", "set_color", 0, 0, 0],
+   [" ", "set tile to red %n green %n blue %n chasing %n times", "set_chaser", 0, 0, 0, 1],
    [" ", "reset tile sensor", "reset_baselines"]
    ],
 
@@ -293,8 +308,9 @@ var cap_off_frac = 0.20;
  ext.tile_pressure = tile_pressure;
  ext.tile_flag = tile_flag;
  ext.tile_pressed = tile_pressed;
- ext.speak =  speak;
+ ext.speak = speak;
  ext.set_color = set_color;
+ ext.set_chaser = set_chaser;
  ext.reset_baselines = reset_baselines;
  
  
