@@ -70,6 +70,7 @@ var cap_off_frac = 0.20;
 
  function _deviceRemoved (dev)
  {
+  dev.close ();
   serial_device = null;
   return;
  }
