@@ -268,6 +268,7 @@ var cap_off_frac = 0.20;
  function speak (string)
  {
   var utterance = new SpeechSynthesisUtterance (string);
+  speechSynthesis.cancel ();
   speechSynthesis.speak (utterance);
  }
   
