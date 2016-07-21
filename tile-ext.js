@@ -436,7 +436,7 @@
   var delay = 100;
   var direction = 0;
   
-  var command = (["set_led_chaser", red, green, blue, delay, direction "\n"] . join (" "));
+  var command = (["set_led_chaser", red, green, blue, delay, direction, "\n"] . join (" "));
   console.log (command);
   tiles [tile_n].serial_device.send (to_buffer (command));
  }
