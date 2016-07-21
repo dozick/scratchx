@@ -233,7 +233,7 @@
   // ?? open all the devices at once, otherwise ScratchX will not try next device
   // ?? hardware tile configuration for now
 
-  if (tiles [0] && tiles [1])
+  if (tiles [0])
    {
     for (var key in tiles)
      tiles [key].serial_device.open ({ bitRate: 115200, stopBits: 0 },
