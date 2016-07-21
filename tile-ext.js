@@ -1,6 +1,10 @@
 // File tile-ext.js
 
 
+/*
+  ?? TODO: Unify with player.js
+*/
+
 
 
 (function (ext)
@@ -429,9 +433,10 @@
   var green = 255 * green / 100;
   var blue = 255 * blue / 100;
 
-  var n_reps = 1;
+  var delay = 100;
+  var direction = 0;
   
-  var command = (["set_led_chaser", red, green, blue, n_reps, "\n"] . join (" "));
+  var command = (["set_led_chaser", red, green, blue, delay, direction "\n"] . join (" "));
   console.log (command);
   tiles [tile_n].serial_device.send (to_buffer (command));
  }
