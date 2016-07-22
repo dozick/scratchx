@@ -223,7 +223,7 @@
     index = "1";
     break;
 
-   case "/dev/cu.usbmodem1865731":
+   case "/dev/tty.usbmodem1865731":
     index = "2";
     break;
    }
