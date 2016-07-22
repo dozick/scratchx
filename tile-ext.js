@@ -222,17 +222,24 @@
    case "/dev/tty.usbmodem1864781":
     index = "1";
     break;
+
+   case "/dev/cu.usbmodem1865731":
+    index = "2";
+    break;
    }
 
   if (index != null)
    {
+    // ?? TEMPORARY setup for any one tile, assigned to index 0
+    index = 0;
+    
     tiles [index] = new Tile ();
     tiles [index].serial_device = dev;
    }
 
   // ?? open all the devices at once, otherwise ScratchX will not try next device
-  // ?? hardware tile configuration for now
 
+  // ?? TEMPORARY setup for any one tile, assigned to index 0
   if (tiles [0])
    {
     for (var key in tiles)
