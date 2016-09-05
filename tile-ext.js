@@ -476,12 +476,12 @@
   [
    ["r", "tile %n segment %m.segment raw", "tile_segment_raw", 0, 0],
    ["r", "tile %n segment %m.segment pressure", "tile_segment_pressure", 0, 0],
-   ["r", "tile %n segment %m.segment flag", "tile_segment_flag", 0],
+   ["b", "tile %n segment %m.segment pressed", "tile_segment_flag", 0],
    
    ["b", "tile %n pressed", "tile_flag", 0],
    ["r", "tile %n pressure", "tile_pressure", 0],
 
-   ["h", "when tile %n flag", "tile_flag_event", 0],
+   ["h", "when tile %n pressed", "tile_flag_event", 0],
 
    [" ", "speak %s", "speak", ""],
 
