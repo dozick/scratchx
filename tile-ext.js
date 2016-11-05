@@ -231,7 +231,7 @@
   if (index != null)
    {
     // ?? TEMPORARY setup for any one tile, assigned to index 0
-    index = 0;
+    // index = 0;
     
     tiles [index] = new Tile ();
     tiles [index].serial_device = dev;
@@ -239,8 +239,8 @@
 
   // ?? open all the devices at once, otherwise ScratchX will not try next device
 
-  // ?? TEMPORARY setup for any one tile, assigned to index 0
-  if (tiles [0])
+  // ?? TEMPORARY setup for any two tiles
+  if (tiles [0] && tiles [1])
    {
     for (var key in tiles)
      tiles [key].serial_device.open ({ bitRate: 115200, stopBits: 0 },
