@@ -38,6 +38,7 @@
  
  
  // Variables
+ var device_index = 0;
  var tiles = {};
  
  
@@ -211,8 +212,9 @@
  {
   console.log ("_deviceConnected", dev);
 
-  var index = null;
+  var index = device_index++;
 
+  /* 
   switch (dev.id)
    {
    case "/dev/tty.usbmodem1816151":
@@ -227,6 +229,7 @@
     index = "2";
     break;
    }
+  */
 
   if (index != null)
    {
