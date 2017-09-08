@@ -242,13 +242,9 @@
 
   // ?? open all the devices at once, otherwise ScratchX will not try next device
 
-  // ?? TEMPORARY setup for any two tiles
-  if (tiles [0] && tiles [1])
-   {
-    for (var key in tiles)
-     tiles [key].serial_device.open ({ bitRate: 115200, stopBits: 0 },
-                                     tiles [key].on_open.bind (tiles [key]) );
-   }
+  for (var key in tiles)
+   tiles [key].serial_device.open ({ bitRate: 115200, stopBits: 0 },
+                                   tiles [key].on_open.bind (tiles [key]) );
  }
 
 
