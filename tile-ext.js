@@ -38,7 +38,6 @@
  
  
  // Variables
- var device_index = 0;
  var tiles = {};
  
  
@@ -212,9 +211,8 @@
  {
   console.log ("_deviceConnected", dev);
 
-  var index = device_index++;
+  var index = null;
 
-  /* 
   switch (dev.id)
    {
    case "/dev/tty.usbmodem1816151":
@@ -229,12 +227,11 @@
     index = "2";
     break;
    }
-  */
 
   if (index != null)
    {
     // ?? TEMPORARY setup for any one tile, assigned to index 0
-    // index = 0;
+    index = 0;
     
     tiles [index] = new Tile ();
     tiles [index].serial_device = dev;
@@ -242,9 +239,13 @@
 
   // ?? open all the devices at once, otherwise ScratchX will not try next device
 
-  for (var key in tiles)
-   tiles [key].serial_device.open ({ bitRate: 115200, stopBits: 0 },
-                                   tiles [key].on_open.bind (tiles [key]) );
+  // ?? TEMPORARY setup for any one tile, assigned to index 0
+  if (tiles [0])
+   {
+    for (var key in tiles)
+     tiles [key].serial_device.open ({ bitRate: 115200, stopBits: 0 },
+                                     tiles [key].on_open.bind (tiles [key]) );
+   }
  }
 
 
