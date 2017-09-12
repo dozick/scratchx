@@ -52,13 +52,13 @@ var EXT;
 
  // Class Tile
  
- function Tile (id)
+ function Tile (dev)
  {
-  this.serial_device = null;
+  this.serial_device = dev;
   this.out_buffer = new DataView (new ArrayBuffer (n_bytes_buffer));
 
   // instance vars
-  this.id = id;
+  this.id = dev.id;
   this.index = tiles.length;
   this.pressed = false;
   this.watchdog_timer = null;
@@ -164,7 +164,7 @@ var EXT;
  {
   console.log ("_deviceConnected", dev);
 
-  tiles [dev.id] = new Tile (dev.id);
+  tiles [dev.id] = new Tile (dev);
 
   for (var key in tiles)
    tiles [key].serial_device.open ({ bitRate: 115200, stopBits: 0 },
