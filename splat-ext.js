@@ -392,7 +392,6 @@
  ext.set_named_color = set_named_color;
  ext.set_2_named_colors = set_2_named_colors;
  ext.set_chaser = set_chaser;
- ext.reset_baselines = reset_baselines;
  
  
  
