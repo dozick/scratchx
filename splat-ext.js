@@ -174,7 +174,7 @@ var EXT;
  {
   console.log ("_deviceConnected", dev);
 
-  var index = device_index++;
+  var index = 0;
 
   /* 
   switch (dev.id)
@@ -193,15 +193,12 @@ var EXT;
    }
   */
 
-  if (index != null)
-   {
-    // ?? TEMPORARY setup for any one tile, assigned to index 0
-    // index = 0;
+  // ?? TEMPORARY setup for any one tile, assigned to index 0
+  index = 0;
     
-    tiles [index] = new Tile ();
-    tiles [index].serial_device = dev;
-   }
-
+  tiles [index] = new Tile ();
+  tiles [index].serial_device = dev;
+  
   // ?? open all the devices at once, otherwise ScratchX will not try next device
 
   for (var key in tiles)
