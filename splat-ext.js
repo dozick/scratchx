@@ -298,7 +298,7 @@ var EXT;
    ["h", "when splat %n pressed", "is_pressed", 0],
    ["b", "splat %n pressed", "is_pressed", 0],
 
-   ["r", "number of splats", get_n_splats],
+   ["r", "number of splats", "get_n_splats"],
 
    [" ", "set splat %n to %m.color_name", "set_named_color", 0, "Black"],
    [" ", "set splat %n to red %n green %n blue %n", "set_rgb_color", 0, 0, 0, 0],
