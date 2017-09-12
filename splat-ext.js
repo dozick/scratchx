@@ -14,9 +14,12 @@ var EXT;
  
  // Constants
  const n_bytes_buffer = 1024;
- const ALL_LEDS = 16383;
+ 
+ const n_leds = 14;
+ const all_leds = (1 << n_leds) - 1;
 
  
+
  // from https://en.wikipedia.org/wiki/Web_colors
  const color_table =
  [
@@ -42,6 +45,7 @@ var EXT;
  
  // Variables
  var tiles = {};
+ var device_connection_timer = null;
  
  
 
@@ -136,17 +140,36 @@ var EXT;
   return (Object.keys (tiles).length);
  }
 
+
+ 
+ function restart_device_connection_timer ()
+ {
+  if (device_connection_timer)
+   clearTimeout (device_connection_timer);
+
+  device_connection_timer = setTimout (on_device_connection_timeout, 5000);
+ }
  
 
- // _shutdown - cleanup when the extension is unloaded
+
+ function on_device_connection_timeout ()
+ {
+  for (var key in tiles)
+   tiles [key].serial_device.open ({ bitRate: 115200, stopBits: 0 },
+                                   tiles [key].on_open.bind (tiles [key]) );
+ }
+
+
+
+  // _shutdown - cleanup when the extension is unloaded
  function _shutdown ()
  {
   console.log ("_shutdown");
 
   for (var key in tiles)
    {
-    tiles [key] . serial_device.close ();
-    tiles [key] . serial_device = null;
+    tiles [key].serial_device.close ();
+    delete tiles [key];
    }
  }
 
@@ -171,14 +194,13 @@ var EXT;
 
   tiles [dev.id] = new Tile (dev);
 
-  for (var key in tiles)
-   tiles [key].serial_device.open ({ bitRate: 115200, stopBits: 0 },
-                                   tiles [key].on_open.bind (tiles [key]) );
+  // ?? wait to open all the devices at once, otherwise ScratchX will not try next device
+  restart_device_connection_timer ();
  }
 
 
 
- // ?? Note: Firmata library says this is not called for serial devices!
+ // ?? Note: This is not actually called for serial devices!  (See  Firmata library.)
  
  function _deviceRemoved (dev)
  {
@@ -187,7 +209,7 @@ var EXT;
   for (key in tiles)
    {
     if (tiles [key].serial_device == dev)
-     tiles [key].serial_device = null;
+     delete tiles [key];
    }
  }
 
@@ -246,7 +268,7 @@ var EXT;
   var green = 255 * green / 100;
   var blue = 255 * blue / 100;
   
-  var command = (["set_leds", red, green, blue, ALL_LEDS, ALL_LEDS, "\n"] . join (" "));
+  var command = (["set_leds", red, green, blue, all_leds, all_leds, "\n"] . join (" "));
   console.log (command);
   get_tile (tile_n).serial_device.send (to_buffer (command));
  }
@@ -271,7 +293,7 @@ var EXT;
  {
   var color = color_components (color_name);
   var command = (["set_leds", color.red, color.green, color.blue,
-                  ALL_LEDS, ALL_LEDS, "\n"]
+                  all_leds, all_leds, "\n"]
                  .join (" ") );
   console.log (command);
   get_tile (tile_n).serial_device.send (to_buffer (command));
