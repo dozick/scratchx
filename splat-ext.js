@@ -52,16 +52,15 @@ var EXT;
 
  // Class Tile
  
- function Tile ()
+ function Tile (id)
  {
   this.serial_device = null;
   this.out_buffer = new DataView (new ArrayBuffer (n_bytes_buffer));
 
   // instance vars
-  this.id = null;
-  this.flag = false;
-  this.flag_event = false;
-
+  this.id = id;
+  this.index = tiles.length;
+  this.pressed = false;
   this.watchdog_timer = null;
  }
   
@@ -94,7 +93,7 @@ var EXT;
     if (atoms [1] == 0)
      console.log ("on_data", this.serial_device.id, atoms [1]);
 
-    this.tile_flag = atoms [2];
+    this.pressed = Number (atoms [2]);
 
     this.restart_watchdog ();
    }
@@ -151,17 +150,7 @@ var EXT;
  // _getStatus - report missing hardware, plugin, or unsupported browser
  function _getStatus ()
  {
-  var connected = true;
-
-  if (Object.keys (tiles).length == 0)
-   connected = false;
-
-  else
-   {
-    for (var key in tiles)
-     if (! tiles [key].serial_device)
-      connected = false;
-   }
+  var connected = (tiles.length > 0);
 
   if (connected)
    return { status: 2, msg: "Connected" };
@@ -175,32 +164,7 @@ var EXT;
  {
   console.log ("_deviceConnected", dev);
 
-  var index = 0;
-
-  /* 
-  switch (dev.id)
-   {
-   case "/dev/tty.usbmodem1816151":
-    index = "0";
-    break;
-
-   case "/dev/tty.usbmodem1864781":
-    index = "1";
-    break;
-
-   case "/dev/tty.usbmodem1865731":
-    index = "2";
-    break;
-   }
-  */
-
-  // ?? TEMPORARY setup for any one tile, assigned to index 0
-  index = 0;
-    
-  tiles [index] = new Tile ();
-  tiles [index].serial_device = dev;
-  
-  // ?? open all the devices at once, otherwise ScratchX will not try next device
+  tiles [id] = new Tile (dev.id);
 
   for (var key in tiles)
    tiles [key].serial_device.open ({ bitRate: 115200, stopBits: 0 },
@@ -251,35 +215,11 @@ var EXT;
 
  
 
- function tile_flag (tile_n)
+ function is_pressed (tile_n)
  {
-  return (Number (tiles [tile_n].tile_flag));
+  return (tiles [tile_n].pressed);
  }
 
-
-
- function tile_flag_event (tile_n)
- {
-  var result = false;
-
-  // if tile_flag currently
-  if (tile_flag (tile_n))
-   {
-    // ...and the event was not yet reported
-    if (! tiles [tile_n].flag_event)
-     {
-      result = true;
-      tiles [tile_n].flag_event = true;
-     }
-   }
-
-  // no current flag, so reset event
-  else
-   tiles [tile_n].flag_event = false;
-
-  return (result);
- }
- 
 
 
  function set_rgb_color (tile_n, red, green, blue)
@@ -337,8 +277,8 @@ var EXT;
  {
   blocks:
   [
-   ["h", "when splat %n pressed", "tile_flag", 0],
-   ["b", "splat %n pressed", "tile_flag", 0],
+   ["h", "when splat %n pressed", "is_pressed", 0],
+   ["b", "splat %n pressed", "is_pressed", 0],
 
    [" ", "set splat %n to %m.color_name", "set_named_color", 0, "Black"],
    [" ", "set splat %n to red %n green %n blue %n", "set_rgb_color", 0, 0, 0, 0],
@@ -362,8 +302,7 @@ var EXT;
  ext._deviceConnected = _deviceConnected;
  ext._deviceRemoved = _deviceRemoved;
 
- ext.tile_flag = tile_flag;
- ext.tile_flag_event = tile_flag_event;
+ ext.is_pressed = is_pressed;
  
  ext.speak = speak;
  ext.set_rgb_color = set_rgb_color;
