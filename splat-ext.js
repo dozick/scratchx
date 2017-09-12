@@ -108,7 +108,7 @@ var EXT;
   if (this.watchdog_timer)
    clearTimeout (this.watchdog_timer);
   
-  this.watchdog_timer = setTimeout (this.on_watchdog.bind (this), 500);
+  this.watchdog_timer = setTimeout (this.on_watchdog.bind (this), 1000);
  }
 
 
