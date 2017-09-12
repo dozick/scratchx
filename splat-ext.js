@@ -336,7 +336,7 @@ var EXT;
   blocks:
   [
    ["b", "splat %n pressed", "tile_flag", 0],
-   ["h", "when splat %n pressed", "tile_flag_event", 0],
+   ["h", "when splat %n pressed", "tile_flag", 0],
 
    [" ", "speak %s", "speak", ""],
 
