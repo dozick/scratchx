@@ -10,8 +10,6 @@ var EXT;
 (function (ext)
 {
  EXT = ext;
- ext.tiles = tiles;
- ext.device_index = device_index;
  
  // Constants
  const n_bytes_buffer = 1024;
@@ -420,7 +418,12 @@ var EXT;
  ext.set_2_named_colors = set_2_named_colors;
  ext.set_chaser = set_chaser;
  
- 
+
+
+ // ?? debugging
+ ext.tiles = tiles;
+ ext.device_index = device_index;
+
  
  // register the extension
  ScratchExtensions.register ("Unruly Splats", descriptor, ext, { type: "serial" });
