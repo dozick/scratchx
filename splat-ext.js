@@ -120,6 +120,10 @@ var EXT;
     this.serial_device.close ();
     this.serial_device = null;
    }
+
+  for (var key in tiles)
+   if (tiles [key].id == this.id)
+    delete (tiles [key]);
  }
 
 
