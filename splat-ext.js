@@ -58,7 +58,7 @@ var EXT;
 
   // instance vars
   this.id = dev.id;
-  this.index = tiles.length;
+  this.index = Object.keys (tiles).length;
   this.pressed = false;
   this.watchdog_timer = null;
  }
@@ -323,7 +323,7 @@ var EXT;
  ext._deviceRemoved = _deviceRemoved;
 
  ext.is_pressed = is_pressed;
- ext.n_splats = get_n_splats;
+ ext.get_n_splats = get_n_splats;
  
  ext.speak = speak;
  ext.set_rgb_color = set_rgb_color;
