@@ -10,6 +10,8 @@ var EXT;
 (function (ext)
 {
  EXT = ext;
+ ext.tiles = tiles;
+ ext.device_index = device_index;
  
  // Constants
  const n_bytes_buffer = 1024;
