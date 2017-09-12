@@ -61,7 +61,7 @@ var EXT;
   this.flag = false;
   this.flag_event = false;
 
-  this.watchdog_count = 0;
+  this.watchdog_timer = null;
  }
   
  
@@ -73,8 +73,6 @@ var EXT;
   this.id = this.serial_device.id;
 
   this.serial_device.set_receive_handler (this.on_data.bind (this));
-  this.reset_watchdog ();
-
   this.serial_device.send (to_buffer ("set_variable serial_ready 1 \n"));
 
   this.restart_watchdog ();
