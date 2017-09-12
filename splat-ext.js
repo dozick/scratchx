@@ -164,7 +164,7 @@ var EXT;
  {
   console.log ("_deviceConnected", dev);
 
-  tiles [id] = new Tile (dev.id);
+  tiles [dev.id] = new Tile (dev.id);
 
   for (var key in tiles)
    tiles [key].serial_device.open ({ bitRate: 115200, stopBits: 0 },
