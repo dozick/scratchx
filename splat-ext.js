@@ -93,6 +93,8 @@ var EXT;
     if (atoms [1] == 0)
      console.log ("on_data", this.serial_device.id, atoms [1]);
 
+    this.tile_flag = atoms [2];
+
     this.restart_watchdog ();
    }
  }
@@ -251,22 +253,9 @@ var EXT;
 
  
 
- function tile_segment_flag (tile_n, segment)
- {
-  return (tiles [tile_n].cap_flags [Number (segment)]);
- }
-
-
-
  function tile_flag (tile_n)
  {
-  for (var i = 0; i < n_caps; i++)
-   {
-    if (tiles [tile_n].cap_flags [i])
-     return (true);
-   }
-  
-  return (false);
+  return (tiles [tile_n].tile_flag);
  }
 
 
@@ -333,51 +322,6 @@ var EXT;
  
 
  
- function set_2_named_colors (tile_n, color_name_1, color_name_2, split)
- {
-  var color_1 = color_components (color_name_1);
-  var color_2 = color_components (color_name_2);
-
-  var set_1_width = split;
-  var set_2_width = 7 - split;
-  
-  var set_1_on = (1 << set_1_width) - 1;
-  var set_2_on = (1 << set_2_width) - 1;
-
-  set_2_on <<= split;
-  
-  // color_1
-  var command = (["set_leds", color_1.red, color_1.green, color_1.blue,
-                  set_1_on, set_1_on, "\n"] . join (" "));
-  console.log (command);
-  tiles [tile_n].serial_device.send (to_buffer (command));
-
-  
-  // color 2
-  var command = (["set_leds", color_2.red, color_2.green, color_2.blue,
-                  set_2_on, set_2_on, "\n"] . join (" "));
-  console.log (command);
-  tiles [tile_n].serial_device.send (to_buffer (command));
- }
- 
-
- 
- function set_chaser (tile_n, red, green, blue)
- {
-  var red = 255 * red / 100;
-  var green = 255 * green / 100;
-  var blue = 255 * blue / 100;
-
-  var delay = 100;
-  var direction = 0;
-  
-  var command = (["set_led_chaser", red, green, blue, delay, direction, "\n"] . join (" "));
-  console.log (command);
-  tiles [tile_n].serial_device.send (to_buffer (command));
- }
- 
-
- 
  // ?? consider using utterance.onend to add "speak until done"
  
  function speak (string)
@@ -394,19 +338,14 @@ var EXT;
  {
   blocks:
   [
-   ["b", "tile %n segment %m.segment pressed", "tile_segment_flag", 0],
-   ["b", "tile %n pressed", "tile_flag", 0],
-   ["h", "when tile %n pressed", "tile_flag_event", 0],
+   ["b", "splat %n pressed", "tile_flag", 0],
+   ["h", "when splat %n pressed", "tile_flag_event", 0],
 
    [" ", "speak %s", "speak", ""],
 
-   [" ", "set tile %n to red %n green %n blue %n", "set_rgb_color", 0, 0, 0, 0],
-   [" ", "set tile %n to %m.color_name", "set_named_color", 0, "Black"],
+   [" ", "set splat %n to red %n green %n blue %n", "set_rgb_color", 0, 0, 0, 0],
+   [" ", "set splat %n to %m.color_name", "set_named_color", 0, "Black"],
 
-   [" ", "set tile %n to %m.color_name and %m.color_name split %n",
-    "set_2_named_colors", 0, "Black", "Black", 3 ],
-
-   [" ", "set tile %n chaser to red %n green %n blue %n", "set_chaser", 0, 0, 0, 0],
    ],
 
   menus:
@@ -424,15 +363,12 @@ var EXT;
  ext._deviceConnected = _deviceConnected;
  ext._deviceRemoved = _deviceRemoved;
 
- ext.tile_segment_flag = tile_segment_flag;
  ext.tile_flag = tile_flag;
  ext.tile_flag_event = tile_flag_event;
  
  ext.speak = speak;
  ext.set_rgb_color = set_rgb_color;
  ext.set_named_color = set_named_color;
- ext.set_2_named_colors = set_2_named_colors;
- ext.set_chaser = set_chaser;
  
 
 
