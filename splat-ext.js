@@ -74,7 +74,7 @@ var EXT;
 
   this.serial_device.send (to_buffer ("set_variable serial_ready 1 \n"));
 
-  setInterval (this.watchdog, 100);
+  setInterval (this.watchdog.bind (this), 100);
  }
 
  
@@ -111,6 +111,7 @@ var EXT;
  {
   if (this.watchdog_count > 0)
    this.watchdog_count--;
+
   else
    {
     console.log ("watchdog: timeout for device", this.serial_device);
