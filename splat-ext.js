@@ -9,6 +9,7 @@ var EXT;
 
 (function (ext)
 {
+ // ?? debugging
  EXT = ext;
  
  // Constants
@@ -58,6 +59,7 @@ var EXT;
   // instance vars
   this.flag = false;
   this.flag_event = false;
+  this.watchdog_count = 0;
  }
   
  
@@ -68,9 +70,11 @@ var EXT;
   console.log ("on_open", this.serial_device.id);
 
   this.serial_device.set_receive_handler (this.on_data.bind (this));
-  this.serial_device.set_error_handler (this.on_device_error.bind (this));
+  this.reset_watchdog ();
 
   this.serial_device.send (to_buffer ("set_variable serial_ready 1 \n"));
+
+  setInterval (this.watchdog, 100);
  }
 
  
@@ -88,29 +92,40 @@ var EXT;
     if (atoms [1] == 0)
      console.log ("on_data", this.serial_device.id, atoms [1]);
 
-    for (var i = 0; i < n_caps; i++)
-     this.cap_count (i, Number (atoms [i + 2]));
+    this.reset_watchdog ();
    }
  }
 
  
 
- // ?? called when device removed
- 
- Tile.prototype . on_device_error =
- function (message)
+ Tile.prototype . reset_watchdog =
+ function ()
  {
-  console.log ("on_device_error", message);
-  this.serial_device.close ();
+  this.watchdog_count = 5;
+ }
 
-  for (key in tiles)
+
+
+ Tile.prototype . watchdog =
+ function ()
+ {
+  if (this.watchdog_count > 0)
+   this.watchdog_count--;
+  else
    {
-    if (tiles [key].serial_device == this.serial_device)
-     tiles [key].serial_device = null;
+    console.log ("watchdog: timeout for device", this.serial_device);
+
+    this.serial_device.close ();
+    
+    for (key in tiles)
+     {
+      if (tiles [key].serial_device == this.serial_device)
+       tiles [key].serial_device = null;
+     }
    }
  }
 
- 
+
 
  // Functions
  
