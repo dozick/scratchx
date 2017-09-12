@@ -323,7 +323,7 @@ var EXT;
  ext._deviceRemoved = _deviceRemoved;
 
  ext.is_pressed = is_pressed;
- ext.n_splats = n_splats;
+ ext.n_splats = get_n_splats;
  
  ext.speak = speak;
  ext.set_rgb_color = set_rgb_color;
