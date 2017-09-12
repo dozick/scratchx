@@ -340,7 +340,7 @@ var EXT;
    ["r", "number of splats", "get_n_splats"],
 
    [" ", "set splat %n to %m.color_name", "set_named_color", 0, "Black"],
-   [" ", "set splat %n pixel %n to %m.color_name", "set_pixel_named_color", 0, "Black", 0],
+   [" ", "set splat %n pixel %n to %m.color_name", "set_pixel_named_color", 0, 0, "Black"],
 
    // [" ", "set splat %n to red %n green %n blue %n", "set_rgb_color", 0, 0, 0, 0],
 
