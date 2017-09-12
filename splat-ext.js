@@ -147,7 +147,7 @@ var EXT;
   if (device_connection_timer)
    clearTimeout (device_connection_timer);
 
-  device_connection_timer = setTimout (on_device_connection_timeout, 5000);
+  device_connection_timer = setTimeout (on_device_connection_timeout, 5000);
  }
  
 
