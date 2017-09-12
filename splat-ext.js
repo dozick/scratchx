@@ -131,7 +131,13 @@ var EXT;
 
  // Functions
  
+ function get_n_splats ()
+ {
+  return (Object.keys (tiles).length);
+ }
+
  
+
  // _shutdown - cleanup when the extension is unloaded
  function _shutdown ()
  {
@@ -149,7 +155,7 @@ var EXT;
  // _getStatus - report missing hardware, plugin, or unsupported browser
  function _getStatus ()
  {
-  var connected = (Object.keys (tiles).length > 0);
+  var connected = (get_n_splats () > 0);
 
   if (connected)
    return { status: 2, msg: "Connected" };
@@ -214,9 +220,22 @@ var EXT;
 
  
 
+ function get_tile (index)
+ {
+  for (var key in tiles)
+   {
+    var tile = tiles [key];
+    if (tile.index == index)
+     return (tile);
+   }
+  return (null);
+ }
+
+ 
+
  function is_pressed (tile_n)
  {
-  return (tiles [tile_n].pressed);
+  return (get_tile (tile_n).pressed);
  }
 
 
@@ -229,7 +248,7 @@ var EXT;
   
   var command = (["set_leds", red, green, blue, ALL_LEDS, ALL_LEDS, "\n"] . join (" "));
   console.log (command);
-  tiles [tile_n].serial_device.send (to_buffer (command));
+  get_tile (tile_n).serial_device.send (to_buffer (command));
  }
  
 
@@ -255,7 +274,7 @@ var EXT;
                   ALL_LEDS, ALL_LEDS, "\n"]
                  .join (" ") );
   console.log (command);
-  tiles [tile_n].serial_device.send (to_buffer (command));
+  get_tile (tile_n).serial_device.send (to_buffer (command));
  }
  
 
@@ -278,6 +297,8 @@ var EXT;
   [
    ["h", "when splat %n pressed", "is_pressed", 0],
    ["b", "splat %n pressed", "is_pressed", 0],
+
+   ["r", "number of splats", get_n_splats],
 
    [" ", "set splat %n to %m.color_name", "set_named_color", 0, "Black"],
    [" ", "set splat %n to red %n green %n blue %n", "set_rgb_color", 0, 0, 0, 0],
@@ -302,6 +323,7 @@ var EXT;
  ext._deviceRemoved = _deviceRemoved;
 
  ext.is_pressed = is_pressed;
+ ext.n_splats = n_splats;
  
  ext.speak = speak;
  ext.set_rgb_color = set_rgb_color;
