@@ -147,13 +147,15 @@ var EXT;
   if (device_connection_timer)
    clearTimeout (device_connection_timer);
 
-  device_connection_timer = setTimeout (on_device_connection_timeout, 5000);
+  device_connection_timer = setTimeout (on_device_connection_timeout, 2000);
  }
  
 
 
  function on_device_connection_timeout ()
  {
+  console.log ("on_device_connection_timeout");
+  
   for (var key in tiles)
    tiles [key].serial_device.open ({ bitRate: 115200, stopBits: 0 },
                                    tiles [key].on_open.bind (tiles [key]) );
@@ -192,10 +194,14 @@ var EXT;
  {
   console.log ("_deviceConnected", dev);
 
-  tiles [dev.id] = new Tile (dev);
+  // ?? ScratchX will call _deviceConnected repeatedly on same device until open
+  if (! tiles [dev.id])
+   {
+    tiles [dev.id] = new Tile (dev);
 
-  // ?? wait to open all the devices at once, otherwise ScratchX will not try next device
-  restart_device_connection_timer ();
+    // ?? wait to open all the devices at once, otherwise ScratchX will not try next device
+    restart_device_connection_timer ();
+   }
  }
 
 
