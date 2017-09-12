@@ -41,7 +41,6 @@ var EXT;
  
  
  // Variables
- var device_index = 0;
  var tiles = {};
  
  
@@ -150,7 +149,7 @@ var EXT;
  // _getStatus - report missing hardware, plugin, or unsupported browser
  function _getStatus ()
  {
-  var connected = (tiles.length > 0);
+  var connected = (Object.keys (tiles).length > 0);
 
   if (connected)
    return { status: 2, msg: "Connected" };
@@ -312,7 +311,6 @@ var EXT;
 
  // ?? debugging
  ext.tiles = tiles;
- ext.device_index = device_index;
 
  
  // register the extension
