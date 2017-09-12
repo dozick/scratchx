@@ -14,6 +14,7 @@ var EXT;
  
  // Constants
  const n_bytes_buffer = 1024;
+ const ALL_LEDS = 16383;
 
  
  // from https://en.wikipedia.org/wiki/Web_colors
@@ -287,7 +288,7 @@ var EXT;
   var green = 255 * green / 100;
   var blue = 255 * blue / 100;
   
-  var command = (["set_leds", red, green, blue, 255, 255, "\n"] . join (" "));
+  var command = (["set_leds", red, green, blue, ALL_LEDS, ALL_LEDS, "\n"] . join (" "));
   console.log (command);
   tiles [tile_n].serial_device.send (to_buffer (command));
  }
@@ -311,7 +312,8 @@ var EXT;
  function set_named_color (tile_n, color_name)
  {
   var color = color_components (color_name);
-  var command = (["set_leds", color.red, color.green, color.blue, 255, 255, "\n"]
+  var command = (["set_leds", color.red, color.green, color.blue,
+                  ALL_LEDS, ALL_LEDS, "\n"]
                  .join (" ") );
   console.log (command);
   tiles [tile_n].serial_device.send (to_buffer (command));
