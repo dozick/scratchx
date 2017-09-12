@@ -5,13 +5,14 @@
   ?? TODO: Unify with player.js
 */
 
-
+var EXT;
 
 (function (ext)
 {
+ EXT = ext;
+ 
  // Constants
  const n_bytes_buffer = 1024;
- const n_caps = 4;
 
  
  // from https://en.wikipedia.org/wiki/Web_colors
