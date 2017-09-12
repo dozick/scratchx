@@ -274,7 +274,8 @@ var EXT;
   var green = 255 * green / 100;
   var blue = 255 * blue / 100;
   
-  var command = (["set_leds", red, green, blue, all_leds, all_leds, "\n"] . join (" "));
+  var command = (["set_leds", red, green, blue, all_leds, "\n"]
+                 .join (" ") );
   console.log (command);
   get_tile (tile_n).serial_device.send (to_buffer (command));
  }
@@ -298,8 +299,18 @@ var EXT;
  function set_named_color (tile_n, color_name)
  {
   var color = color_components (color_name);
-  var command = (["set_leds", color.red, color.green, color.blue,
-                  all_leds, all_leds, "\n"]
+  var command = (["set_leds", color.red, color.green, color.blue, all_leds, "\n"]
+                 .join (" ") );
+  console.log (command);
+  get_tile (tile_n).serial_device.send (to_buffer (command));
+ }
+ 
+
+ 
+ function set_pixel_named_color (tile_n, pixel_n, color_name)
+ {
+  var color = color_components (color_name);
+  var command = (["set_leds", color.red, color.green, color.blue, (1 << pixel_n), "\n"]
                  .join (" ") );
   console.log (command);
   get_tile (tile_n).serial_device.send (to_buffer (command));
@@ -329,7 +340,9 @@ var EXT;
    ["r", "number of splats", "get_n_splats"],
 
    [" ", "set splat %n to %m.color_name", "set_named_color", 0, "Black"],
-   [" ", "set splat %n to red %n green %n blue %n", "set_rgb_color", 0, 0, 0, 0],
+   [" ", "set splat %n pixel %n to %m.color_name", "set_pixel_named_color", 0, "Black", 0],
+
+   // [" ", "set splat %n to red %n green %n blue %n", "set_rgb_color", 0, 0, 0, 0],
 
    [" ", "speak %s", "speak", ""]
 
@@ -356,6 +369,7 @@ var EXT;
  ext.speak = speak;
  ext.set_rgb_color = set_rgb_color;
  ext.set_named_color = set_named_color;
+ ext.set_pixel_named_color = set_pixel_named_color;
  
 
 
