@@ -337,13 +337,13 @@ var EXT;
  {
   blocks:
   [
-   ["b", "splat %n pressed", "tile_flag", 0],
    ["h", "when splat %n pressed", "tile_flag", 0],
+   ["b", "splat %n pressed", "tile_flag", 0],
 
-   [" ", "speak %s", "speak", ""],
-
-   [" ", "set splat %n to red %n green %n blue %n", "set_rgb_color", 0, 0, 0, 0],
    [" ", "set splat %n to %m.color_name", "set_named_color", 0, "Black"],
+   [" ", "set splat %n to red %n green %n blue %n", "set_rgb_color", 0, 0, 0, 0],
+
+   [" ", "speak %s", "speak", ""]
 
    ],
 
