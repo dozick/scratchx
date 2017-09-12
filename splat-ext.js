@@ -252,7 +252,7 @@ var EXT;
 
  function tile_flag (tile_n)
  {
-  return (tiles [tile_n].tile_flag);
+  return (Number (tiles [tile_n].tile_flag));
  }
 
 
