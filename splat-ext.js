@@ -316,6 +316,19 @@ var EXT;
  
 
  
+ function set_named_color_wait (tile_n, color_name, delay, done)
+ {
+  set_named_color (tile_n, color_name);
+  setTimeout ((delay * 1000),
+              function ()
+              {
+               set_named_color (tile_n, "Black");
+               done.call ();
+              } );
+ }
+
+
+ 
  function set_pixel_named_color (tile_n, pixel_n, color_name)
  {
   var color = color_components (color_name);
@@ -347,10 +360,16 @@ var EXT;
    ["b", "splat %n pressed", "is_pressed", 0],
 
    ["r", "number of splats", "get_n_splats"],
-   ["r", "%m.color_name", "get_named_color", 0, "Black"],
+   ["r", "%m.color_name", "get_named_color", "Black"],
 
-   [" ", "set splat %n to %m.color_name", "set_named_color", 0, "Black"],
-   [" ", "set splat %n pixel %n to %m.color_name", "set_pixel_named_color", 0, 0, "Black"],
+   [" ", "set splat %n to %m.color_name",
+    "set_named_color",  0, "Black" ],
+
+   ["w", "set splat %n to %m.color_name for %n seconds",
+    "set_named_color_wait",  0, "Black", 0 ],
+
+   [" ", "set splat %n pixel %n to %m.color_name",
+    "set_pixel_named_color",  0, 0, "Black" ],
 
    // [" ", "set splat %n to red %n green %n blue %n", "set_rgb_color", 0, 0, 0, 0],
 
@@ -381,6 +400,8 @@ var EXT;
  ext.speak = speak;
  ext.set_rgb_color = set_rgb_color;
  ext.set_named_color = set_named_color;
+ ext.set_named_color_wait = set_named_color_wait;
+
  ext.set_pixel_named_color = set_pixel_named_color;
  
 
