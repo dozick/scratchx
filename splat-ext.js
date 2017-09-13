@@ -28,6 +28,7 @@ var EXT;
      ["Gray",      50,     50,     50 ],
      ["Black",     0,      0,      0  ],
      ["Red",       100,    0,      0  ],
+     ["Orange",    100,    24,     0  ],   // non-web-standard
   // ["Maroon",    50,     0,      0  ],
      ["Yellow",    100,    100,    0  ],
   // ["Olive",     50,     50,     0  ],
@@ -96,6 +97,7 @@ var EXT;
     if (atoms [1] == 0)
      console.log ("on_data", this.serial_device.id, atoms [1]);
 
+    // switch_1
     this.pressed = Number (atoms [2]);
 
     this.restart_watchdog ();
@@ -296,6 +298,13 @@ var EXT;
 
  
 
+ function get_named_color (index)
+ {
+  return (color_table [index]);
+ }
+ 
+
+ 
  function set_named_color (tile_n, color_name)
  {
   var color = color_components (color_name);
@@ -338,6 +347,7 @@ var EXT;
    ["b", "splat %n pressed", "is_pressed", 0],
 
    ["r", "number of splats", "get_n_splats"],
+   ["r", "%m.color_name", "get_named_color", 0, "Black"],
 
    [" ", "set splat %n to %m.color_name", "set_named_color", 0, "Black"],
    [" ", "set splat %n pixel %n to %m.color_name", "set_pixel_named_color", 0, 0, "Black"],
@@ -365,6 +375,8 @@ var EXT;
 
  ext.is_pressed = is_pressed;
  ext.get_n_splats = get_n_splats;
+
+ ext.get_named_color = get_named_color;
  
  ext.speak = speak;
  ext.set_rgb_color = set_rgb_color;
