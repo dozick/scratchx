@@ -3,9 +3,15 @@
 
 /*
   ?? TODO: Unify with player.js
+
+  Note: ScratchX interface functions use 1-based indexing, so tile_n
+        and pixel_n are adjusted in each of the relevant functions.
 */
 
+// ?? debugging
 var EXT;
+
+
 
 (function (ext)
 {
@@ -137,13 +143,19 @@ var EXT;
 
  // Functions
  
- function get_n_splats ()
+ function get_tile (index)
  {
-  return (Object.keys (tiles).length);
+  for (var key in tiles)
+   {
+    var tile = tiles [key];
+    if (tile.index == index)
+     return (tile);
+   }
+  return (null);
  }
 
-
  
+
  function restart_device_connection_timer ()
  {
   if (device_connection_timer)
@@ -164,6 +176,48 @@ var EXT;
  }
 
 
+
+ function to_buffer (string)
+ {
+  return (Uint8Array.from (string, (s) => s.charCodeAt (0)));
+ }
+ 
+
+ 
+ function to_string (buffer)
+ {
+  return (String.fromCharCode.apply (null, new Uint8Array (buffer)));
+ }
+
+
+ 
+ function limit (value, min, max)
+ {
+  if (value < min)
+   return (min);
+  else if (value > max)
+   return (max);
+  else
+   return (value);
+ }
+
+ 
+
+ function color_components (color_name)
+ {
+  var spec_list = color_table.filter (function (item) { return (item [0] == color_name); });
+  var spec = spec_list [0];
+
+  var red   = 255 * spec [1] / 100;
+  var green = 255 * spec [2] / 100;
+  var blue  = 255 * spec [3] / 100;
+
+  return ({ red: red, green: green, blue: blue });
+ }
+
+ 
+
+ // ScratchX Interface Functions
 
   // _shutdown - cleanup when the extension is unloaded
  function _shutdown ()
@@ -224,54 +278,26 @@ var EXT;
 
 
  
- function to_buffer (string)
- {
-  return (Uint8Array.from (string, (s) => s.charCodeAt (0)));
- }
- 
-
- 
- function to_string (buffer)
- {
-  return (String.fromCharCode.apply (null, new Uint8Array (buffer)));
- }
-
-
- 
- function limit (value, min, max)
- {
-  if (value < min)
-   return (min);
-  else if (value > max)
-   return (max);
-  else
-   return (value);
- }
-
- 
-
- function get_tile (index)
- {
-  for (var key in tiles)
-   {
-    var tile = tiles [key];
-    if (tile.index == index)
-     return (tile);
-   }
-  return (null);
- }
-
- 
-
  function is_pressed (tile_n)
  {
+  tile_n--;
+
   return (get_tile (tile_n).pressed);
  }
 
 
 
+ function get_n_splats ()
+ {
+  return (Object.keys (tiles).length);
+ }
+
+
+ 
  function set_rgb_color (tile_n, red, green, blue)
  {
+  tile_n--;
+
   var red = 255 * red / 100;
   var green = 255 * green / 100;
   var blue = 255 * blue / 100;
@@ -284,20 +310,6 @@ var EXT;
  
 
  
- function color_components (color_name)
- {
-  var spec_list = color_table.filter (function (item) { return (item [0] == color_name); });
-  var spec = spec_list [0];
-
-  var red   = 255 * spec [1] / 100;
-  var green = 255 * spec [2] / 100;
-  var blue  = 255 * spec [3] / 100;
-
-  return ({ red: red, green: green, blue: blue });
- }
-
- 
-
  function get_named_color (color)
  {
   return (color);
@@ -307,6 +319,8 @@ var EXT;
  
  function set_named_color (tile_n, color_name)
  {
+  tile_n--;
+  
   var color = color_components (color_name);
   var command = (["set_leds", color.red, color.green, color.blue, all_leds, "\n"]
                  .join (" ") );
@@ -318,6 +332,8 @@ var EXT;
  
  function set_named_color_wait (tile_n, color_name, delay, done)
  {
+  tile_n--;
+  
   set_named_color (tile_n, color_name);
   setTimeout (function ()
               {
@@ -331,6 +347,9 @@ var EXT;
  
  function set_pixel_named_color (tile_n, pixel_n, color_name)
  {
+  tile_n--;
+  pixel_n--;
+  
   var color = color_components (color_name);
   var command = (["set_leds", color.red, color.green, color.blue, (1 << pixel_n), "\n"]
                  .join (" ") );
@@ -356,20 +375,20 @@ var EXT;
  {
   blocks:
   [
-   ["h", "when splat %n pressed", "is_pressed", 0],
-   ["b", "splat %n pressed", "is_pressed", 0],
+   ["h", "when splat %n pressed", "is_pressed", 1],
+   ["b", "splat %n pressed", "is_pressed", 1],
 
    ["r", "number of splats", "get_n_splats"],
    ["r", "%m.color_name", "get_named_color", "Black"],
 
    [" ", "set splat %n to %m.color_name",
-    "set_named_color",  0, "Black" ],
+    "set_named_color",  01, "Black" ],
 
    ["w", "set splat %n to %m.color_name for %n seconds",
-    "set_named_color_wait",  0, "Black", 1 ],
+    "set_named_color_wait",  01, "Black", 1 ],
 
    [" ", "set splat %n pixel %n to %m.color_name",
-    "set_pixel_named_color",  0, 0, "Black" ],
+    "set_pixel_named_color",  1, 1, "Black" ],
 
    // [" ", "set splat %n to red %n green %n blue %n", "set_rgb_color", 0, 0, 0, 0],
 
