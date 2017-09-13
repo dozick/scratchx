@@ -1,4 +1,4 @@
-// File splat-ext.js
+// File splat-sim-ext.js
 
 
 /*
