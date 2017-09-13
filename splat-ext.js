@@ -298,9 +298,9 @@ var EXT;
 
  
 
- function get_named_color (index)
+ function get_named_color (color)
  {
-  return (color_table [index]);
+  return (color);
  }
  
 
