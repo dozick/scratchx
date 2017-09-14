@@ -332,10 +332,10 @@ var EXT;
  
  function set_named_color_wait (tile_n, color_name, delay, done)
  {
-  set_named_color ((tile_n - 1), color_name);
+  set_named_color (tile_n, color_name);
   setTimeout (function ()
               {
-               set_named_color ((tile_n - 1), "Black");
+               set_named_color (tile_n, "Black");
                done.call ();
               },
               (delay * 1000) );
