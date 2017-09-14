@@ -71,6 +71,7 @@ var EXT;
   this.id = dev.id;
   this.index = Object.keys (tiles).length;
   this.pressed = false;
+  this.commanded_color = "Black";
   this.watchdog_timer = null;
  }
   
@@ -293,6 +294,15 @@ var EXT;
  }
 
 
+
+ function get_splat_color (tile_n)
+ {
+  tile_n--;
+
+  return (get_tile (tile_n).commanded_color);
+ }
+ 
+
  
  function set_rgb_color (tile_n, red, green, blue)
  {
@@ -326,6 +336,7 @@ var EXT;
                  .join (" ") );
   console.log (command);
   get_tile (tile_n).serial_device.send (to_buffer (command));
+  get_tile (tile_n).commanded_color = color_name;
  }
  
 
@@ -377,6 +388,8 @@ var EXT;
    ["b", "splat %n pressed", "is_pressed", 1],
 
    ["r", "number of splats", "get_n_splats"],
+   
+   ["r", "splat %n color", "get_splat_color", 1],
    ["r", "%m.color_name", "get_named_color", "Black"],
 
    [" ", "set splat %n to %m.color_name",
@@ -413,6 +426,7 @@ var EXT;
  ext.get_n_splats = get_n_splats;
 
  ext.get_named_color = get_named_color;
+ ext.get_splat_color = get_splat_color;
  
  ext.speak = speak;
  ext.set_rgb_color = set_rgb_color;
