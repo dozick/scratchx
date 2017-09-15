@@ -368,8 +368,6 @@ var EXT;
  
 
  
- // ?? consider using utterance.onend to add "speak until done"
- 
  function speak (string)
  {
   var utterance = new SpeechSynthesisUtterance (string);
@@ -377,6 +375,17 @@ var EXT;
   speechSynthesis.speak (utterance);
  }
   
+
+
+ function speak_wait (string, done)
+ {
+  var utterance = new SpeechSynthesisUtterance (string);
+  speechSynthesis.cancel ();
+  speechSynthesis.speak (utterance);
+
+  utterance.onend = done;
+ }
+
 
 
  // Block and block menu descriptions
@@ -396,7 +405,7 @@ var EXT;
     "set_named_color",  01, "Black" ],
 
    ["w", "set splat %n to %m.color_name for %n seconds",
-    "set_named_color_wait",  01, "Black", 1 ],
+    "set_named_color_wait",  1, "Black", 1 ],
 
    [" ", "set splat %n pixel %n to %m.color_name",
     "set_pixel_named_color",  1, 1, "Black" ],
@@ -404,6 +413,7 @@ var EXT;
    // [" ", "set splat %n to red %n green %n blue %n", "set_rgb_color", 0, 0, 0, 0],
 
    [" ", "speak %s", "speak", ""]
+   ["w", "speak %s until done", "speak_wait", ""]
 
    ],
 
@@ -429,6 +439,8 @@ var EXT;
  ext.get_splat_color = get_splat_color;
  
  ext.speak = speak;
+ ext.speak_wait = speak_wait;
+ 
  ext.set_rgb_color = set_rgb_color;
  ext.set_named_color = set_named_color;
  ext.set_named_color_wait = set_named_color_wait;
