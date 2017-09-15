@@ -412,7 +412,7 @@ var EXT;
 
    // [" ", "set splat %n to red %n green %n blue %n", "set_rgb_color", 0, 0, 0, 0],
 
-   [" ", "speak %s", "speak", ""]
+   [" ", "speak %s", "speak", ""],
    ["w", "speak %s until done", "speak_wait", ""]
 
    ],
